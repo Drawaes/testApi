@@ -14,10 +14,12 @@ namespace testApi
         public static void Main(string[] args)
         {
             var serviceManager = new ServiceManager("TestService");
-            serviceManager.AddHttpHealthCheck("health", 10)
+            serviceManager.ServicePort = 58984;
+            serviceManager.ServiceAddress = "http://localhost";
+            serviceManager.AddHttpHealthCheck("/health", 10)
                 .AddApiUrl("/api/someObject")
                 .AddApiUrl("/api/someOtherObject")
-                .RegisterServiceAsync();
+            .RegisterServiceAsync();
 
             var host = new WebHostBuilder()
                 .UseKestrel()
